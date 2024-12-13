@@ -47,11 +47,13 @@ export default class PlayScene extends Phaser.Scene{
 
         //Laser
         this.laserGroup=this.physics.add.group({
-            classType:Laser,
-            maxSize:1,
+            classType: Laser,
+            maxSize: 1,
             runChildUpdate:true
 
         })
+
+        this.physics.add.overlap(this.laserGroup,this.meteorGroup,this.collision,null,this)
     }
 
     update(time,delta){
@@ -73,7 +75,7 @@ export default class PlayScene extends Phaser.Scene{
         if(this.cursor.space.isDown){
             const shoot=this.laserGroup.get()
             if(shoot){
-                shoot.fire(this.player.x,this.player,this.player.rotation)
+                shoot.fire(this.player.x,this.player.y,this.player.rotation)
                 this.sound.play('shoot')
             }
         }
@@ -84,6 +86,15 @@ export default class PlayScene extends Phaser.Scene{
         for(const meteor of this.meteorArray){
             meteor.update(time,delta)
         }
+
+
+    }
+
+    collision(Laser,meteor){
+        Laser.destroy()
+        meteor.destroy()
+        this.score +=10
+        this.sound.play('explosion')
     }
 
    

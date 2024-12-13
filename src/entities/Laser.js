@@ -23,5 +23,12 @@ export default class Laser extends Phaser.Physics.Arcade.Sprite{
         this.x +=Math.cos(this.direction) * this.speed * delta
         this.y +=Math.sin(this.direction) * this.speed * delta
 
+        if(this.x < -50 || this.y < -50 || this.x >800 || this.x >600){
+            this.setActive(false)
+            this.setVisible(false)
+            this.destroy()
+
+        }
+
     }
 }
